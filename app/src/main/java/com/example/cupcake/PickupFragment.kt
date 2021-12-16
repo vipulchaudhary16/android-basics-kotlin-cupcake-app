@@ -53,6 +53,7 @@ class PickupFragment : Fragment() {
         binding?.apply {
             viewModel = sharedViewModel
             nextButton.setOnClickListener { goToNextScreen() }
+            cancelButton.setOnClickListener { cancelOrder() }
             lifecycleOwner = viewLifecycleOwner
         }
     }
@@ -60,9 +61,14 @@ class PickupFragment : Fragment() {
     /**
      * Navigate to the next screen to see the order summary.
      */
-    fun goToNextScreen() {
+    private fun goToNextScreen() {
         Toast.makeText(activity, "Next", Toast.LENGTH_SHORT).show()
         findNavController().navigate(R.id.action_pickupFragment_to_summaryFragment)
+    }
+
+    private fun cancelOrder() {
+        sharedViewModel.resetOrder()
+        findNavController().navigate(R.id.action_pickupFragment_to_startFragment)
     }
 
     /**

@@ -16,6 +16,7 @@
 package com.example.cupcake
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +37,7 @@ class FlavorFragment : Fragment() {
     // when the view hierarchy is attached to the fragment.
     private var binding: FragmentFlavorBinding? = null
 
-    private val sharedViewModel : OrderViewModel by activityViewModels()
+    private val sharedViewModel: OrderViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +54,7 @@ class FlavorFragment : Fragment() {
         binding?.apply {
             viewModel = sharedViewModel
             nextButton.setOnClickListener { goToNextScreen() }
+            cancelButton.setOnClickListener { cancelOrder() }
             lifecycleOwner = viewLifecycleOwner
         }
     }
@@ -60,9 +62,14 @@ class FlavorFragment : Fragment() {
     /**
      * Navigate to the next screen to choose pickup date.
      */
-    fun goToNextScreen() {
-//        Toast.makeText(activity, "Next", Toast.LENGTH_SHORT).show()
+    private fun goToNextScreen() {
+        Toast.makeText(activity, "Next", Toast.LENGTH_SHORT).show()
         findNavController().navigate(R.id.action_flavorFragment_to_pickupFragment)
+    }
+
+    private fun cancelOrder() {
+        sharedViewModel.resetOrder()
+        findNavController().navigate(R.id.action_flavorFragment_to_startFragment)
     }
 
     /**
